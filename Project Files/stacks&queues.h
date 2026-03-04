@@ -1,8 +1,8 @@
 #include <iostream>
-#include <stdexcept> // For out_of_range
+#include <stdexcept> //For out_of_range
 using namespace std;
 
-// Node structure for the linked list
+//Node structure for the linked list
 struct Node {
     int data;
     Node* next;
@@ -10,7 +10,7 @@ struct Node {
     Node(int val) : data(val), next(nullptr) {}
 };
 
-// Linked List class
+//Linked List class
 class LinkedList {
 protected:
     Node* head;
@@ -19,12 +19,12 @@ protected:
 public:
     LinkedList() : head(nullptr), tail(nullptr) {}
 
-    // Added getter for Iterator access
+    //Added getter for Iterator access
     Node* getHead() const { return head; }
 
     virtual void display() = 0; // Pure virtual function for display
     
-    // Virtual destructor to prevent memory leaks in derived classes
+    //Virtual destructor to prevent memory leaks in derived classes
     virtual ~LinkedList() {
         while (head) {
             Node* temp = head;
@@ -34,7 +34,7 @@ public:
     }
 };
 
-// Stack Implementation using Linked List
+//Stack Implementation using Linked List
 class Stack : public LinkedList {
 public:
     void push(int val) {
@@ -45,14 +45,14 @@ public:
         cout << "Pushed: " << val << endl;
     }
 
-    // Changed from void to int to return the removed value
+    //Changed from void to int to return the removed value
     int pop() {
         if (!head) {
             cout << "Stack is empty!\n";
             return -1; 
         }
         Node* temp = head;
-        int val = temp->data; // Capture data before deletion
+        int val = temp->data; //Capture data before deletion
         
         head = head->next;
         if (!head) tail = nullptr;
@@ -61,7 +61,7 @@ public:
         return val;
     }
 
-    // Returns the top value without removing it
+    //Returns the top value without removing it
     int peek() {
         return (head) ? head->data : -1;
     }
@@ -77,7 +77,7 @@ public:
     }
 };
 
-// Queue Implementation using Linked List
+//Queue Implementation using Linked List
 class Queue : public LinkedList {
 public:
     void enqueue(int val) {
@@ -91,14 +91,14 @@ public:
         cout << "Enqueued: " << val << endl;
     }
 
-    // Changed from void to int to return the removed value
+    //Changed from void to int to return the removed value
     int dequeue() {
         if (!head) {
             cout << "Queue is empty!\n";
             return -1;
         }
         Node* temp = head;
-        int val = temp->data; // Capture data before deletion
+        int val = temp->data; //Capture data before deletion
         
         head = head->next;
         if (!head) tail = nullptr;
@@ -107,7 +107,7 @@ public:
         return val;
     }
 
-    // Returns the front value without removing it
+    //Returns the front value without removing it
     int peek() {
         return (head) ? head->data : -1;
     }
@@ -123,7 +123,7 @@ public:
     }
 };
 
-// Custom iterator to traverse the list
+//Custom iterator to traverse the list
 class Iterator {
 private:
     Node* current;

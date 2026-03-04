@@ -4,8 +4,9 @@
 using namespace std;
 
 int main() {
-    Queue todoList;      // FIFO: Tasks processed in order
-    Stack completedLog;  // LIFO: Most recent finished task is on top
+    Queue todoList;      //FIFO: Tasks processed in order
+    Stack completedLog;  //LIFO: Most recent finished task is on top
+    Stack buffer;        //Temporary storage finished tasks before moving to completedLog
     int choice, taskId;
 
     cout << "=== Productivity Task Manager ===\n";
@@ -28,25 +29,39 @@ int main() {
                 break;
 
             case 2:
-                // Simulation: In a real app, we'd pass the value from Queue to Stack
-                cout << "Completing oldest task...\n";
-                todoList.dequeue(); //
                 cout << "Enter the ID you just finished to archive it: ";
                 cin >> taskId;
-                completedLog.push(taskId); //
+                //Copy todoList to buffer by traversing one at a time to find the taskId and push it to buffer without the given taskId
+                while (todoList.peek() != -1) {
+                    int currentTask = todoList.dequeue();
+                    if (currentTask == taskId) {
+                        buffer.push(currentTask); //Push the completed task to buffer
+                    } else {
+                        buffer.push(currentTask); //Push other tasks to buffer temporarily
+                    }
+                }
+                //Now move all tasks back to todoList except the completed one
+                while (buffer.peek() != -1) {
+                    int tempTask = buffer.pop();
+                    if (tempTask != taskId) {
+                        todoList.enqueue(tempTask); //Re-enqueue tasks except the completed one
+                    }
+                }
+                completedLog.push(taskId);
                 break;
 
             case 3:
                 cout << "Reverting last completed task...\n";
-                completedLog.pop(); //
+                todoList.enqueue(completedLog.peek()); //Re-enqueue the most recently completed task
+                completedLog.pop();
                 break;
 
             case 4:
-                todoList.display(); //
+                todoList.display();
                 break;
 
             case 5:
-                completedLog.display(); //
+                completedLog.display();
                 break;
 
             case 6:
